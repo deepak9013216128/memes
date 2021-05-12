@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import SvgContainer from "../svg-container/SvgContainer";
 import styles from "../Memes.module.scss";
 
-export class MemeGenerator extends Component {
+class MemeGenerator extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -102,3 +102,5 @@ export class MemeGenerator extends Component {
     );
   }
 }
+
+export default MemeGenerator;

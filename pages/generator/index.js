@@ -2,7 +2,7 @@ import Head from "next/head";
 import React, { useEffect, useState } from "react";
 
 import Meme from "./meme/Meme";
-import { MemeGenerator } from "./meme-generator/MemeGenerator";
+import MemeGenerator from "./meme-generator/MemeGenerator";
 import styles from "./Memes.module.scss";
 
 /* global jQuery */
