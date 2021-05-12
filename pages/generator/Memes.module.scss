@@ -1,0 +1,25 @@
+.appName {
+  font-size: 1.2rem;
+  font-weight: bold !important;
+}
+
+.memeContainer {
+  margin: 50px 0;
+  right: 0px;
+  .memeCard {
+    cursor: pointer;
+
+    .memeImage {
+      height: 200px;
+      background-size: cover;
+      background-position: top;
+      background-repeat: no-repeat;
+    }
+  }
+}
+
+.meme-generator {
+  .ui.input {
+    margin-bottom: 20px;
+  }
+}
