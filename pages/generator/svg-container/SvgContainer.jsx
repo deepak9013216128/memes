@@ -9,7 +9,7 @@ export default class SvgContainer extends Component {
       fill: "#FFF",
       stroke: "#000",
       userSelect: "none",
-      zIndex: 100
+      zIndex: 100,
     };
 
     return this.props.captions.map((caption, index) => {
@@ -47,7 +47,7 @@ export default class SvgContainer extends Component {
         xmlnshlink="http://www.w3.org/1999/xlink"
       >
         <image
-          ref={el => {
+          ref={(el) => {
             this.imageRef = el;
           }}
           xlinkHref={this.props.meme.memeDataUrl}

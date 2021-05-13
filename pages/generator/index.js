@@ -11,20 +11,16 @@ import Header from "../../components/Header/Header";
 export default function Generate() {
   const [memes, setMemes] = useState([]);
   const [selectedMeme, setSelectedMeme] = useState(null);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     fetch("https://api.imgflip.com/get_memes")
       .then((res) => res.json())
       .then((res) => setMemes(res.data.memes));
   }, []);
-
-  const createMemeCard = () => {
-    return memes.map((meme) => (
-      <div key={meme.id} className="four wide column">
-        <Meme meme={meme} onClick={selectMeme} />
-      </div>
-    ));
-  };
 
   const selectMeme = (meme) => {
     // Clear selected image
@@ -41,10 +37,11 @@ export default function Generate() {
             memeDataUrl: res.srcElement.result,
           });
         };
+        handleShow();
         reader.readAsDataURL(blob);
       });
 
-    jQuery(".ui.modal").modal("show");
+    // jQuery(".ui.modal").modal("show");
   };
 
   return (
@@ -71,9 +68,19 @@ export default function Generate() {
       </Head>
       <Header />
       <div className={`ui container ${styles.memeContainer}`}>
-        <div className="ui stackable grid centered">{createMemeCard()}</div>
+        <div className="ui stackable grid centered">
+          {memes.map((meme) => (
+            <div key={meme.id} className="four wide column">
+              <Meme meme={meme} onClick={selectMeme} />
+            </div>
+          ))}
+        </div>
       </div>
-      <MemeGenerator selectedMeme={selectedMeme} />
+      <MemeGenerator
+        show={show}
+        handleClose={handleClose}
+        selectedMeme={selectedMeme}
+      />
     </>
   );
 }

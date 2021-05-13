@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import SvgContainer from "../svg-container/SvgContainer";
+import { Modal } from "react-bootstrap";
 import styles from "../Memes.module.scss";
 
 class MemeGenerator extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      captions: [],
-      meme: null,
-    };
-  }
+  state = {
+    captions: [],
+    meme: null,
+  };
 
   static getDerivedStateFromProps(props, currentState) {
     // If no image defined return default states which will render null
@@ -35,7 +33,8 @@ class MemeGenerator extends Component {
     };
   }
 
-  changeCaption(event, index) {
+  changeCaption = (event, index) => {
+    console.log(event, index);
     this.setState({
       captions: [
         ...this.state.captions.slice(0, index),
@@ -46,59 +45,64 @@ class MemeGenerator extends Component {
         ...this.state.captions.slice(index + 1),
       ],
     });
-  }
-
-  generateInputTextBoxes = () => {
-    let placeholders = [];
-    if (this.state.captions.length === 2) {
-      placeholders = ["Upper", "Lower"];
-    } else {
-      placeholders = ["First", "Second", "Third", "Fourth", "Fifth"];
-    }
-    return this.state.captions.map((caption, index) => (
-      <div className="ui fluid input" key={index}>
-        <input
-          type="text"
-          placeholder={placeholders[index] + " text"}
-          onChange={(event) => this.changeCaption(event, index)}
-          value={caption.text}
-        />
-      </div>
-    ));
   };
 
   render() {
-    if (!this.props.selectedMeme)
-      return <div className={`ui modal ${styles.memeContainer}`} />;
-    return (
-      <div className={`ui modal ${styles.memeContainer}`}>
-        <i className="close icon" />
-        <div className="header">Generate Meme</div>
-        <div className="image scrolling content">
-          <div className="ui big image">
-            <SvgContainer
-              meme={this.props.selectedMeme}
-              captions={this.state.captions}
-            />
-          </div>
+    let placeholders = [];
+    if (this.state.captions.length === 2) {
+      placeholders = ["Upper", "Lower2"];
+    } else {
+      placeholders = ["First", "Second", "Third", "Fourth", "Fifth"];
+    }
 
-          <div className="description">
-            <div className="fixed-scroll">
-              <div className="ui header">
-                Write the captions for the meme to be generated
+    if (!this.props.selectedMeme)
+      return (
+        <Modal show={this.props.show} onHide={this.props.handleClose}>
+          <div className={`ui ${styles.memeContainer}`}></div>
+        </Modal>
+      );
+    return (
+      <Modal show={this.props.show} onHide={this.props.handleClose}>
+        <div className={`ui ${styles.memeContainer}`}>
+          <i className="close icon" />
+          <div className="header">Generate Meme</div>
+          <div className="image scrolling content">
+            <div className="ui big image">
+              <SvgContainer
+                meme={this.props.selectedMeme}
+                captions={this.state.captions}
+              />
+            </div>
+
+            <div className="description">
+              <div className="fixed-scroll">
+                <div className="ui header">
+                  Write the captions for the meme to be generated
+                </div>
+                <div>
+                  {this.state.captions.map((caption, index) => (
+                    <div className="ui fluid input" key={index}>
+                      <input
+                        type="text"
+                        placeholder={placeholders[index] + " text"}
+                        onChange={(event) => alert("helo")}
+                        value={caption.text}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div>{this.generateInputTextBoxes()}</div>
+            </div>
+          </div>
+          <div className="actions">
+            <div className="ui black deny button">Cancel</div>
+            <div className="ui positive right labeled icon button">
+              Generate
+              <i className="checkmark icon" />
             </div>
           </div>
         </div>
-        <div className="actions">
-          <div className="ui black deny button">Cancel</div>
-          <div className="ui positive right labeled icon button">
-            Generate
-            <i className="checkmark icon" />
-          </div>
-        </div>
-      </div>
+      </Modal>
     );
   }
 }
